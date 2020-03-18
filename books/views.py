@@ -74,20 +74,20 @@ def register(request):
 		form = UserRegisterForm()
 		return render(request, 'books/register.html', {'form': form, 'title':'reqister here'})
 
+def login(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request, username = username, password = password)
+			if user is not None:
+				form = login(request, user)
+				messages.success(request, f' wecome {username} !!')
+				return redirect('display')
+			else:
+				messages.info(request,f'account done not exit plz sign in')
+	form = AuthenticationForm()
+	return render(request,'books/login.html', {'form':form, 'title':'log in'})
 
-def Login(request): 
-    if request.method == 'POST': 
-        username = request.POST['username'] 
-        password = request.POST['password'] 
-        user = authenticate(request, username = username, password = password) 
-        if user is not None: 
-            form = login(request, user) 
-            messages.success(request, f' wecome {username} !!') 
-            return redirect('display') 
-        else: 
-            messages.info(request, f'account done not exit plz sign in') 
-    form = AuthenticationForm() 
-    return render(request, 'books/login.html', {'form':form, 'title':'log in'}) 
 
 @login_required
 def profile(request):
@@ -109,20 +109,18 @@ def edit(request):
 
 @login_required
 def change_password(request):
-    	if request.method == 'POST':
-    		form = PasswordChangeForm(request.user, request.POST)
+	if request.method == 'POST':
+		form = PasswordChangeForm(request.user, request.POST)
 			if form.is_valid():
-    				user = form.save()
-					update_session_auth_hash(request,user)
-					messages.success(request, 'Your password was successfully updated!')
-					return redirect('profile')
+				user = form.save()
+				update_session_auth_hash(request,user)
+				messages.success(request, 'Your password was successfully updated!')
+				return redirect('profile')
 			else:
-    				messages.error(request, 'Please correct the error below.')
-		else:
-    			from = PasswordChangeForm(request.user)
-				response = render(request,'books/pass_change.html',{'from':form})
+				messages.error(request, 'Please correct the error below.')
+	else:
+		from = PasswordChangeForm(request.user)
+		response = render(request,'books/pass_change.html',{'from':form})
 		response.set_cookie('password_changed','true')
 		return response
-    				
-    					
 
