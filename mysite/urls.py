@@ -35,6 +35,14 @@ urlpatterns = [
     path('profile/password/', book_views.change_password, name='change_password'),
     path('profile/edit/', book_views.edit, name='edit'),
     path('chat/', chat_view.baatein, name='baat'), 
+    path('login_api/', book_views.login_api, name='login_api'), 
+    path('details_api/', book_views.detail_api, name='details_api'), 
+    path('book_view_api/', book_views.book_view_api, name='book_view_api'), 
+    path('profile_api/', book_views.profile_api, name='profile_api'), 
+    path('display_api/', book_views.display_api, name='display_api'), 
+    path('search_api/', book_views.search_api, name='search_api'), 
+
+
 
 ]
 
