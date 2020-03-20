@@ -12,7 +12,10 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 import json
 from django.http import JsonResponse
-
+import base64
+import os
+from PIL import Image
+from io import BytesIO
 # Create your views here.
 @login_required 
 def book_view(request): 
@@ -31,7 +34,8 @@ def book_view_api(request):
 	if request.method == 'POST':
 		y = json.loads(request.body)
 		name = y["name"]
-		image = y["image"]
+		image = base64.b64decode(y['image'])
+		imgFromData = Image.open(BytesIO(image))
 		obj = Books.objects.create(book_name = name, book_img = image)
 		data = {
 			"message" : "successfull"
@@ -162,10 +166,10 @@ def login_api(request):
 		password = data.get('password', None)
 		per_user = authenticate(username=username, password=password)
 		if per_user is not None:
-			response_validity = {"boolean": True, "username": per_user.username,"name": per_user.get_full_name(), "email": per_user.email}
+			response_validity = {"message" : "successful"}
 		else:
-			response_validity = {"boolean": False}
-		return HttpResponse(JsonResponse(response_validity, safe=False))
+			response_validity = {"message": "Incorrect details"}
+		return JsonResponse(response_validity, safe=False)
 
 
 @login_required
