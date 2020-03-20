@@ -16,6 +16,7 @@ import base64
 import os
 from PIL import Image
 from io import BytesIO
+from django.core.files.base import ContentFile
 # Create your views here.
 @login_required 
 def book_view(request): 
@@ -36,7 +37,10 @@ def book_view_api(request):
 		name = y["name"]
 		image = base64.b64decode(y['image'])
 		imgFromData = Image.open(BytesIO(image))
-		obj = Books.objects.create(book_name = name, book_img = image)
+		ref = "media/images/"+name+".jpg"
+		imgFromData.save(ref, quality = 60)
+		obj = Books.objects.create(book_name = name, book_img = imgFromData)
+		print("ok2")
 		data = {
 			"message" : "successfull"
 		}
