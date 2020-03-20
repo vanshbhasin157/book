@@ -39,7 +39,7 @@ def book_view_api(request):
 		imgFromData = Image.open(BytesIO(image))
 		ref = "media/images/"+name+".jpg"
 		imgFromData.save(ref, quality = 60)
-		obj = Books.objects.create(book_name = name, book_img = imgFromData)
+		obj = Books.objects.create(book_name = name, book_img = ref)
 		print("ok2")
 		data = {
 			"message" : "successfull"
