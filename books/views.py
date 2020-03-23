@@ -25,7 +25,9 @@ def book_view(request):
 		form = BookForm(request.POST, request.FILES) 
 
 		if form.is_valid(): 
-			form.save() 
+			obj = form.save()
+			obj.author = str(request.user)
+			obj.save()
 			return redirect('success') 
 	else: 
 		form = BookForm() 
@@ -35,11 +37,13 @@ def book_view_api(request):
 	if request.method == 'POST':
 		y = json.loads(request.body)
 		name = y["name"]
+		author = y["author"]
+		obj1 = Books.author =(author)
 		image = base64.b64decode(y['image'])
 		imgFromData = Image.open(BytesIO(image))
 		ref = "media/images/"+name+".jpg"
 		imgFromData.save(ref, quality = 60)
-		obj = Books.objects.create(book_name = name, book_img = ref)
+		obj = Books.objects.create(book_name = name, book_img = ref, author = obj1)
 		print("ok2")
 		data = {
 			"message" : "successfull"
@@ -147,7 +151,7 @@ def register(request):
 			return redirect('login')
 	else:
 		form = UserRegisterForm()
-		return render(request, 'books/register.html', {'form': form, 'title':'reqister here'})
+	return render(request, 'books/register.html', {'form': form, 'title':'reqister here'})
 
 def Login(request):
 	if request.method == 'POST':

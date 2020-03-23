@@ -40,7 +40,12 @@ urlpatterns = [
     path('book_view_api/', book_views.book_view_api, name='book_view_api'), 
     path('profile_api/', book_views.profile_api, name='profile_api'), 
     path('display_api/', book_views.display_api, name='display_api'), 
-    path('search_api/', book_views.search_api, name='search_api'), 
+    path('search_api/', book_views.search_api, name='search_api'),
+    path('<int:var>/msgs/', chat_view.msg_view, name='msg_view'), 
+    path('msgs/', chat_view.msg_list, name='msg_list'),
+    path('msg_view_api/', chat_view.msg_view_api, name='msg_view_api'), 
+
+
 
 
 
