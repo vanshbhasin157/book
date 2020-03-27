@@ -29,7 +29,7 @@ urlpatterns = [
     path('search/', book_views.search, name='search'),
     path('details/<int:pk>/', book_views.details, name='details'),
     path('login/', book_views.Login, name ='login'), 
-    path('logout/', auth.LogoutView.as_view(template_name ='user / index.html'), name ='logout'), 
+    path('logout/', auth.LogoutView.as_view(template_name ='books/logout.html'), name ='logout'), 
     path('register/', book_views.register, name ='register'),
     path('profile/', book_views.profile, name = 'profile'),
     path('profile/password/', book_views.change_password, name='change_password'),
@@ -43,7 +43,7 @@ urlpatterns = [
     path('search_api/', book_views.search_api, name='search_api'),
     path('<int:var>/msgs/', chat_view.msg_view, name='msg_view'), 
     path('msgs/', chat_view.msg_list, name='msg_list'),
-    path('msg_view_api/', chat_view.msg_view_api, name='msg_view_api'), 
+    
 
 
 
