@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+{% for x in msgs %}
+	<a href="{% url 'msg_view' var=x.pk %}">{{x}}</a><br>
+{% endfor %}
+{% endblock %}
